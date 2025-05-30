@@ -1,7 +1,7 @@
 ####### WIP #########
 
 # cocotb-ral
-Repo for the cocotb-ral library and follows the KISS model (Keep It Stupidly Simple)
+Repo for the cocotb-ral library and follows the KISS model (Keep It Simple, Stupid)
 
 # Objective
 Many design verification engineers have come from and/or experienced SV-UVM during their career and thus are familiar with UVM RAL.  cocotb does not implement a RAL (as of this writing), thus setting up registers for hardware access is cumbersome.  Depending on who you talk to and which company you work with, cocotb RAL implementations can vary widely.
@@ -26,24 +26,27 @@ The RAL essentially keeps a mirror (shadow) copy of the registers where the star
 Other reg attributes aren't supported yet because honestly no one really uses it unless they are a maniac (W0C, R1C, R0C).
 
 # Usage
-import reg_driver from cocotb-ral
-import rdl2ral from cocotb-ral
-
-apb_driver = reg_driver() # instance of interface driver
-apb_driver.protocol = AXI3 # APB3/APB4/AXI4, regardless of protocol, will use default 32-bit data width and 64-bit addressing, can be reconfigured.
-apb_driver.data_width = 32
-apb_driver.addr_width = 32
-apb_driver.ral = rdl2ral('blah.rdl') # Take an RDL file, and create a special python RAL class out of which defines registers
-
-apb_driver.write('DUT.REG1', data)
-apb_driver.read('DUT.REG2', rdata)
-
+```
+  import reg_driver from cocotb-ral
+  import rdl2ral from cocotb-ral
+  
+  apb_driver = reg_driver() # instance of interface driver
+  apb_driver.protocol = AXI3 # APB3/APB4/AXI4, regardless of protocol, will use default 32-bit data width and 64-bit addressing, can be reconfigured.
+  apb_driver.data_width = 32
+  apb_driver.addr_width = 32
+  apb_driver.ral = rdl2ral('blah.rdl') # Take an RDL file, and create a special python RAL class out of which defines registers
+  
+  apb_driver.write('DUT.REG1', data)
+  apb_driver.read('DUT.REG2', rdata)
+```
 # RAL register template
-class REGISTERNAME:
-  addr = 0xDEADBEEF
-  f = {
-        FIELD0, 0, 4, RO,
-        FIELD1, 5, RO,
-        FIELD2, 6-15, RW,
-        FIELD3, 16-31, RW
-      }
+```
+  class REGISTERNAME:
+    addr = 0xDEADBEEF
+    f = {
+          FIELD0, 0, 4, RO,
+          FIELD1, 5, RO,
+          FIELD2, 6-15, RW,
+          FIELD3, 16-31, RW
+        }
+```
